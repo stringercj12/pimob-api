@@ -3,7 +3,7 @@ package org.example.pimob.communication.response;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class CreateCorretorResponse {
+public class CorretorRegisterResponse {
   public String name;
   public String email;
   public String message;

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CorretorRepository extends JpaRepository<Corretor, Long> {
-  Optional<Corretor> findByUserId(Long usuarioId);
+  Optional<Corretor> findByBrokerId(Long usuarioId);
 }
