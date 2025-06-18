@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "historico_visitas")
-public class HistoricoVisita {
+public class VisitHistory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,13 +20,13 @@ public class HistoricoVisita {
 
   @ManyToOne
   @JoinColumn(name = "cliente_id")
-  private Cliente cliente;
+  private Client cliente;
 
   @ManyToOne
   @JoinColumn(name = "corretor_id")
-  private Corretor corretor;
+  private Broker corretor;
 
   @ManyToOne
   @JoinColumn(name = "imovel_id")
-  private Imovel imovel;
+  private Property property;
 }

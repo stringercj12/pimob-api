@@ -1,60 +1,59 @@
 package org.example.pimob.domain.entities;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.Data;
+import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"corretor"})
 @Entity
-@Table(name = "usuarios")
-public class Usuario {
+@Table(name = "users")
+public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String nome;
 
-  @Column(unique = true)
+  @Column(unique = true, nullable = false)
   private String email;
 
+  @Column(nullable = false)
   private String senha;
 
   @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
   private TipoDeUsuario tipoDeUsuario;
 
   @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
   private StatusUsuario statusUsuario;
 
   private Boolean ativo;
 
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  private Broker corretor;
+
   @CreationTimestamp
+  @Column(nullable = false)
   private LocalDateTime createAt;
 
   @UpdateTimestamp
   private LocalDateTime updatedAt;
 
-  @OneToOne(mappedBy = "usuario")
-  private Corretor corretor;
 
   public enum TipoDeUsuario {
     CORRETOR,
     ADMINISTRADOR,
     CLIENTE,
-
+    USER;
   }
 
   public enum StatusUsuario {
@@ -62,6 +61,6 @@ public class Usuario {
     EM_PROCESSAMENTO,
     APROVADO,
     REJEITADO,
-    ATIVO
+    ATIVO;
   }
 }

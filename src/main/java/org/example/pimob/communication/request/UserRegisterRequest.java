@@ -1,7 +1,7 @@
 package org.example.pimob.communication.request;
 
-import org.example.pimob.domain.entities.Usuario.StatusUsuario;
-import org.example.pimob.domain.entities.Usuario.TipoDeUsuario;
+import org.example.pimob.domain.entities.User.StatusUsuario;
+import org.example.pimob.domain.entities.User.TipoDeUsuario;
 
 import lombok.Data;
 

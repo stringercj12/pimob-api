@@ -1,7 +1,7 @@
 package org.example.pimob.communication;
 
 import lombok.Data;
-import org.example.pimob.domain.entities.Usuario;
+import org.example.pimob.domain.entities.User;
 
 @Data
 public class UserDto {
@@ -9,7 +9,7 @@ public class UserDto {
   private String nome;
   private String email;
   private String senha;
-  private Usuario.TipoDeUsuario tipoDeUsuario;
-  private Usuario.StatusUsuario statusUsuario;
+  private User.TipoDeUsuario tipoDeUsuario;
+  private User.StatusUsuario statusUsuario;
   private Boolean ativo;
 }

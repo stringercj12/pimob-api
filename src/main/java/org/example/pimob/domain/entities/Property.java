@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "imoveis")
-public class Imovel {
+public class Property {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

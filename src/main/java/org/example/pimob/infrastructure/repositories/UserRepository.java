@@ -1,6 +1,6 @@
 package org.example.pimob.infrastructure.repositories;
 
-import org.example.pimob.domain.entities.Usuario;
+import org.example.pimob.domain.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,10 +10,10 @@ import java.util.Optional;
 
 @Repository
 
-public interface UserRepository extends JpaRepository<Usuario, Long> {
-  Optional<Usuario> findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+  Optional<User> findByEmail(String email);
 
-  @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.corretores WHERE u.email = :email")
-  Optional<Usuario> findByEmailWithCorretores(@Param("email") String email);
+  @Query("SELECT u FROM User u LEFT JOIN FETCH u.corretor WHERE u.email = :email")
+  Optional<User> findByEmailWithCorretores(@Param("email") String email);
 
 }
