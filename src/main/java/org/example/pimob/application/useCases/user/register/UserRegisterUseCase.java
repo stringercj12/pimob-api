@@ -1,36 +1,44 @@
 package org.example.pimob.application.useCases.user.register;
 
 
+import jakarta.transaction.Transactional;
 import org.example.pimob.communication.request.UserRegisterRequest;
 import org.example.pimob.communication.response.UserRegisterResponse;
-import org.example.pimob.communication.response.UserResponse;
 import org.example.pimob.domain.entities.User;
 import org.example.pimob.infrastructure.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserRegisterUseCase implements IUserRegisterUseCase{
+public class UserRegisterUseCase implements IUserRegisterUseCase {
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
+  private final BCryptPasswordEncoder bcryptPasswordEncoder;
+
+  public UserRegisterUseCase(UserRepository userRepository, BCryptPasswordEncoder bcryptPasswordEncoder) {
+    this.userRepository = userRepository;
+    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
+  }
 
   @Override
+  @Transactional
   public UserRegisterResponse execute(UserRegisterRequest request) {
     var userExists = userRepository.findByEmail(request.getEmail());
 
-    if(userExists.isPresent()){
-        throw new IllegalArgumentException("User with this email already exists.");
+    if (userExists.isPresent()) {
+      throw new IllegalArgumentException("User with this email already exists.");
     }
 
     var user = new User();
 
-    user.setAtivo(request.getAtivo());
     user.setEmail(request.getEmail());
     user.setNome(request.getNome());
-    user.setSenha(request.getSenha());
-    user.setStatusUsuario(request.getStatusUsuario());
+
+    user.setSenha(bcryptPasswordEncoder.encode(request.getSenha()));
+
     user.setTipoDeUsuario(request.getTipoDeUsuario());
+    user.setStatusUsuario(User.StatusUsuario.PENDENTE);
+    user.setAtivo(false);
 
     userRepository.save(user);
 

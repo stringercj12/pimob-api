@@ -1,6 +1,5 @@
 package org.example.pimob.application.useCases.broker.register;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.example.pimob.communication.request.BrokerRegisterRequest;
 import org.example.pimob.communication.response.BrokerRegisterResponse;
 import org.example.pimob.domain.entities.Broker;
@@ -9,6 +8,7 @@ import org.example.pimob.exception.UserNotFoundException;
 import org.example.pimob.infrastructure.repositories.BrokerRepository;
 import org.example.pimob.infrastructure.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BrokerRegisterUseCase implements IBrokerRegisterUseCase {

@@ -1,15 +1,15 @@
 package org.example.pimob.communication.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record BrokerRegisterRequest(
-  @NotNull(message = "Informe um creci válido")
+  @NotBlank(message = "Informe um creci válido")
   String creci,
 
-  @NotNull(message = "Informe um telefone válido")
+  @NotBlank(message = "Informe um telefone válido")
   String telefone,
 
-  @NotNull(message = "Informe o id de um usuário válido")
+  @NotBlank(message = "Informe o id de um usuário válido")
   Long usuarioId
 ) {
   public static BrokerRegisterRequest toEntity(BrokerRegisterRequest request) {

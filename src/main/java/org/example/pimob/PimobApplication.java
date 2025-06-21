@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 
 import java.awt.*;
@@ -26,8 +25,8 @@ public class PimobApplication {
   }
 
   @EventListener(ApplicationReadyEvent.class)
-  public void openSwaggerUI(){
-    String swaggerUrl = serverUrl + serverPort + "/swagger-ui/index.html";
+  public void openSwaggerUI() {
+    String swaggerUrl = serverUrl + ":" + serverPort + "/swagger-ui/index.html";
 
     System.out.println("\n✅ Aplicação rodando na porta " + serverPort);
     System.out.println("📚 Acesse a documentação Swagger em: " + swaggerUrl + "\n");

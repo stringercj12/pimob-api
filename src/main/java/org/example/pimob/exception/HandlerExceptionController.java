@@ -29,4 +29,11 @@ public class HandlerExceptionController extends ResponseEntityExceptionHandler {
       new MessageExceptionDTO(HttpStatus.CONFLICT.value(), exception.getMessage())
     );
   }
+
+  @ExceptionHandler(UnauthorizedBrokerUpdateException.class)
+  public ResponseEntity<MessageExceptionDTO> handlerUnauthorizedBrokerUpdateException(UnauthorizedBrokerUpdateException exception) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+      new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+    );
+  }
 }
