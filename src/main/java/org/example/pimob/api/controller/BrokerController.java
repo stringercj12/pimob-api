@@ -9,9 +9,9 @@ import org.example.pimob.application.useCases.broker.getById.BrokerGetIdUseCase;
 import org.example.pimob.application.useCases.broker.register.BrokerRegisterUseCase;
 import org.example.pimob.application.useCases.broker.update.BrokerUpdateUseCase;
 import org.example.pimob.communication.request.BrokerRegisterRequest;
-import org.example.pimob.communication.response.BrokerAllResponse;
-import org.example.pimob.communication.response.BrokerRegisterResponse;
-import org.example.pimob.communication.response.BrokerResponse;
+import org.example.pimob.communication.response.broker.BrokerAllResponse;
+import org.example.pimob.communication.response.broker.BrokerRegisterResponse;
+import org.example.pimob.communication.response.broker.BrokerResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

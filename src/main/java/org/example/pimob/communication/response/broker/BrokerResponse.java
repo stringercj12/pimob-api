@@ -1,5 +1,6 @@
-package org.example.pimob.communication.response;
+package org.example.pimob.communication.response.broker;
 
+import org.example.pimob.communication.response.user.UserInBrokerResponse;
 import org.example.pimob.domain.entities.Broker;
 
 public record BrokerResponse(Long id, String creci, String telefone, UserInBrokerResponse user) {

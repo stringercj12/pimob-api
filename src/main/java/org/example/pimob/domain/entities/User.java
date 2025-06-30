@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString(exclude = {"corretor"})
 @Entity
-@Table(name = "users")
+@Table(name = "tb_users")
 public class User {
 
   @Id

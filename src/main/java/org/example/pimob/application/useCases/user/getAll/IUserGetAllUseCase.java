@@ -1,6 +1,6 @@
 package org.example.pimob.application.useCases.user.getAll;
 
-import org.example.pimob.communication.response.UserResponse;
+import org.example.pimob.communication.response.user.UserResponse;
 
 import java.util.List;
 

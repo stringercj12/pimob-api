@@ -2,12 +2,15 @@ package org.example.pimob.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "imoveis")
+@Table(name = "tb_imoveis")
 public class Property {
 
   @Id
@@ -22,9 +25,24 @@ public class Property {
 
   private String cidade;
 
+  private String cep;
+
+  private String bairro;
+
   private String estado;
 
-  private Double preco;
+  private Double precoDeVendaOuAluguel;
+
+  private String latitude;
+  private String longitude;
+
+  private Integer numeroDeQuartos;
+  private Integer vagasNaGarangem;
+
+  private Boolean estaBloqueado;
+
+  @OneToMany(mappedBy = "imovel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<PropertyFile> arquivosDoImovel;
 
   @Enumerated(EnumType.STRING)
   private TipoImovel tipo;
@@ -32,14 +50,17 @@ public class Property {
   @Enumerated(EnumType.STRING)
   private StatusImovel status;
 
+  @CreationTimestamp
   private LocalDateTime createAt = LocalDateTime.now();
 
+  @UpdateTimestamp
+  private LocalDateTime updateAt = LocalDateTime.now();
 
   public enum TipoImovel {
     CASA, APARTAMENTO, TERRENO, COMERCIAL
   }
 
   public enum StatusImovel {
-    DISPONIVEL, VENDIDO, ALUGADO
+    DISPONIVEL, VENDIDO, ALUGADO, IRREGULAR
   }
 }

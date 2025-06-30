@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString(exclude = {"user"})
 @Entity
-@Table(name = "corretores")
+@Table(name = "tb_corretores")
 public class Broker {
 
   @Id

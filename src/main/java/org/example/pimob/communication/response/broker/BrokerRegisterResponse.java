@@ -1,4 +1,4 @@
-package org.example.pimob.communication.response;
+package org.example.pimob.communication.response.broker;
 
 import lombok.AllArgsConstructor;
 

@@ -3,7 +3,7 @@ package org.example.pimob.application.useCases.user.register;
 
 import jakarta.transaction.Transactional;
 import org.example.pimob.communication.request.UserRegisterRequest;
-import org.example.pimob.communication.response.UserRegisterResponse;
+import org.example.pimob.communication.response.user.UserRegisterResponse;
 import org.example.pimob.domain.entities.User;
 import org.example.pimob.infrastructure.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

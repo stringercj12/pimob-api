@@ -1,6 +1,6 @@
 package org.example.pimob.application.useCases.broker.getAll;
 
-import org.example.pimob.communication.response.BrokerAllResponse;
+import org.example.pimob.communication.response.broker.BrokerAllResponse;
 import org.example.pimob.infrastructure.repositories.BrokerRepository;
 import org.springframework.stereotype.Service;
 

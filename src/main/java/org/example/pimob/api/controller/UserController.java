@@ -9,7 +9,7 @@ import org.example.pimob.application.useCases.user.getById.UserGetByIdUseCase;
 import org.example.pimob.application.useCases.user.register.UserRegisterUseCase;
 import org.example.pimob.application.useCases.user.update.UserUpdateUseCase;
 import org.example.pimob.communication.request.UserRegisterRequest;
-import org.example.pimob.communication.response.UserResponse;
+import org.example.pimob.communication.response.user.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
 package org.example.pimob.application.useCases.broker.register;
 
 import org.example.pimob.communication.request.BrokerRegisterRequest;
-import org.example.pimob.communication.response.BrokerRegisterResponse;
+import org.example.pimob.communication.response.broker.BrokerRegisterResponse;
 import org.example.pimob.domain.entities.Broker;
 import org.example.pimob.exception.BrokerAlreadyExistsException;
 import org.example.pimob.exception.UserNotFoundException;

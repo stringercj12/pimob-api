@@ -1,4 +1,4 @@
-package org.example.pimob.communication.response;
+package org.example.pimob.communication.response.user;
 
 import org.example.pimob.domain.entities.User;
 import org.example.pimob.domain.entities.User.TipoDeUsuario;
