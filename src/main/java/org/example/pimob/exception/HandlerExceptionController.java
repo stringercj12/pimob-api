@@ -33,7 +33,35 @@ public class HandlerExceptionController extends ResponseEntityExceptionHandler {
   @ExceptionHandler(UnauthorizedBrokerUpdateException.class)
   public ResponseEntity<MessageExceptionDTO> handlerUnauthorizedBrokerUpdateException(UnauthorizedBrokerUpdateException exception) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-      new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+            new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+    );
+  }
+
+  @ExceptionHandler(DuplicatePropertyException.class)
+  public ResponseEntity<MessageExceptionDTO> handlerDuplicatePropertyException(DuplicatePropertyException exception) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+            new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+    );
+  }
+
+  @ExceptionHandler(ForbiddenException.class)
+  public ResponseEntity<MessageExceptionDTO> handlerForbiddenException(ForbiddenException exception) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+            new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+    );
+  }
+
+  @ExceptionHandler(ValidationException.class)
+  public ResponseEntity<MessageExceptionDTO> handlerValidationException(ValidationException exception) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+            new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+    );
+  }
+
+  @ExceptionHandler(BusinessRuleException.class)
+  public ResponseEntity<MessageExceptionDTO> handlerBusinessRuleException(BusinessRuleException exception) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+            new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
     );
   }
 }

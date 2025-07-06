@@ -27,6 +27,8 @@ public class Property {
 
   private String cep;
 
+  private String numero;
+
   private String bairro;
 
   private String estado;
@@ -37,15 +39,24 @@ public class Property {
   private String longitude;
 
   private Integer numeroDeQuartos;
-  private Integer vagasNaGarangem;
+
+  private Integer vagasNaGaragem;
+
+  private long criadoPor;
+
+  private long criadoPara;
 
   private Boolean estaBloqueado;
+
+  private String telefone;
+
+  private String nomeDeContato;
 
   @OneToMany(mappedBy = "imovel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<PropertyFile> arquivosDoImovel;
 
   @Enumerated(EnumType.STRING)
-  private TipoImovel tipo;
+  private TipoDeImovel tipoDeImovel;
 
   @Enumerated(EnumType.STRING)
   private StatusImovel status;
@@ -56,11 +67,11 @@ public class Property {
   @UpdateTimestamp
   private LocalDateTime updateAt = LocalDateTime.now();
 
-  public enum TipoImovel {
+  public enum TipoDeImovel {
     CASA, APARTAMENTO, TERRENO, COMERCIAL
   }
 
   public enum StatusImovel {
-    DISPONIVEL, VENDIDO, ALUGADO, IRREGULAR
+    DISPONIVEL, VENDA,VENDIDO, ALUGAR, IRREGULAR
   }
 }

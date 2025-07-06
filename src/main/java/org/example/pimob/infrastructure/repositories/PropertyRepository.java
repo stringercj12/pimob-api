@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
+    boolean existsByEnderecoAndNumeroAndCep(String endereco, String numero, String cep);
+    long countByCriadoPor(Long criadoPor);
 }

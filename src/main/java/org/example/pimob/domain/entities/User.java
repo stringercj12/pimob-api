@@ -62,6 +62,15 @@ public class User {
     APROVADO,
     REJEITADO,
     ATIVO;
+
+    public static boolean exists(String status) {
+      try {
+        StatusUsuario.valueOf(status);
+        return true;
+      } catch (IllegalArgumentException e) {
+        return false;
+      }
+    }
   }
 
 }

@@ -28,7 +28,7 @@ public class UserUpdateUseCase implements IUserUpdateUseCase{
     user.setStatusUsuario(request.getStatusUsuario());
     user.setTipoDeUsuario(request.getTipoDeUsuario());
 
-    if(!request.getSenha().isEmpty()){
+    if(request.getSenha() != null && !request.getSenha().isEmpty()){
       user.setSenha(bcryptPasswordEncoder.encode(request.getSenha()));
     }
 
