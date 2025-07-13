@@ -10,6 +10,7 @@ public record PropertyResponse(
         String endereco,
         String cidade,
         String numero,
+        String complemento,
         String bairro,
         String cep,
         String estado,
@@ -24,6 +25,6 @@ public record PropertyResponse(
         Integer vagasNaGaragem,
         Boolean estaBloqueado,
         Property.TipoDeImovel tipoDeImovel,
-        Property.StatusImovel status
+        Property.StatusDoImovel statusDoImovel
 ) {
 }

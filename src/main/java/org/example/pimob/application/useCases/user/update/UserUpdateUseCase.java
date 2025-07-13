@@ -2,7 +2,7 @@ package org.example.pimob.application.useCases.user.update;
 
 import jakarta.transaction.Transactional;
 import org.example.pimob.communication.request.UserRegisterRequest;
-import org.example.pimob.exception.UserNotFoundException;
+import org.example.pimob.exception.user.UserNotFoundException;
 import org.example.pimob.infrastructure.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

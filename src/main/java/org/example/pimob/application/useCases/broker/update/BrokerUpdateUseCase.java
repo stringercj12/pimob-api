@@ -2,9 +2,9 @@ package org.example.pimob.application.useCases.broker.update;
 
 import org.example.pimob.communication.request.BrokerRegisterRequest;
 import org.example.pimob.domain.entities.User;
-import org.example.pimob.exception.BrokerNotFoundException;
-import org.example.pimob.exception.UnauthorizedBrokerUpdateException;
-import org.example.pimob.exception.UserNotFoundException;
+import org.example.pimob.exception.broker.BrokerNotFoundException;
+import org.example.pimob.exception.broker.BrokerUnauthorizedUpdateException;
+import org.example.pimob.exception.user.UserNotFoundException;
 import org.example.pimob.infrastructure.repositories.BrokerRepository;
 import org.example.pimob.infrastructure.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class BrokerUpdateUseCase implements IBrokerUpdateUseCase {
     var isUserAdmin = user.getStatusUsuario().equals(User.StatusUsuario.ATIVO) && user.getTipoDeUsuario().equals(User.TipoDeUsuario.ADMINISTRADOR);
 
     if (!isTheBrokerUser && !isUserAdmin) {
-      throw new UnauthorizedBrokerUpdateException("Você não tem permissão para atualizar este corretor");
+      throw new BrokerUnauthorizedUpdateException("Você não tem permissão para atualizar este corretor");
     }
 
     broker.setCreci(request.creci());

@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/corretor")
+@CrossOrigin("*")
 @Tag(name = "Corretor", description = "Operações relacionadas ao corretor")
 public class BrokerController {
 

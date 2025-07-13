@@ -23,9 +23,10 @@ public class PropertyListAllUseCase implements IPropertyListAllUseCase {
                 property.getId(),
                 property.getTitulo(),
                 property.getDescricao(),
-                property.getEndereco(),
+                property.getLogradouro(),
                 property.getCidade(),
                 property.getNumero(),
+                property.getComplemento(),
                 property.getBairro(),
                 property.getCep(),
                 property.getEstado(),
@@ -40,7 +41,7 @@ public class PropertyListAllUseCase implements IPropertyListAllUseCase {
                 property.getVagasNaGaragem(),
                 property.getEstaBloqueado(),
                 property.getTipoDeImovel(),
-                property.getStatus()
+                property.getStatusDoImovel()
         )).toList();
     }
 }

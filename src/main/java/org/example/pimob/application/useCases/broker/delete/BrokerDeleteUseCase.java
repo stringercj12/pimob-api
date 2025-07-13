@@ -1,6 +1,6 @@
 package org.example.pimob.application.useCases.broker.delete;
 
-import org.example.pimob.exception.BrokerNotFoundException;
+import org.example.pimob.exception.broker.BrokerNotFoundException;
 import org.example.pimob.infrastructure.repositories.BrokerRepository;
 import org.springframework.stereotype.Service;
 

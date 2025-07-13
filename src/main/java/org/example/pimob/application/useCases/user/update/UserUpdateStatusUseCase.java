@@ -2,8 +2,8 @@ package org.example.pimob.application.useCases.user.update;
 
 import org.example.pimob.communication.request.UserUpdateStatusRequest;
 import org.example.pimob.domain.entities.User;
-import org.example.pimob.exception.UserNotFoundException;
-import org.example.pimob.exception.ValidationException;
+import org.example.pimob.exception.user.UserNotFoundException;
+import org.example.pimob.exception.others.ValidationException;
 import org.example.pimob.infrastructure.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 

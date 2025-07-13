@@ -1,4 +1,4 @@
-package org.example.pimob.exception;
+package org.example.pimob.exception.user;
 
 public class UserNotFoundException extends RuntimeException{
   public UserNotFoundException(String message) {
