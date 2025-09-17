@@ -1,0 +1,12 @@
+package org.example.pimob.domain.enums;
+
+public enum PermissionsEnum {
+  PROPERTY_ADD,
+  PROPERTY_VIEW_ALL,
+  PROPERTY_VIEW_OWN,
+  PROPERTY_EDIT_OWN,
+  USER_EDIT_NAME_SELF,
+  USER_CREATE_CLIENT,
+  USER_VIEW_CLIENTS_OWN,
+  ADMIN_MANAGE_USERS;
+}

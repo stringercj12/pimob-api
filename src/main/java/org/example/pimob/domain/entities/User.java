@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,6 +21,7 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false)
   private String nome;
 
   @Column(unique = true, nullable = false)
@@ -36,13 +38,26 @@ public class User {
   @Column(nullable = false)
   private StatusUsuario statusUsuario;
 
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+          name = "user_roles",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "role_id")
+  )
+  private Set<Role> roles;
+
+  @Column(nullable = false)
   private Boolean ativo;
 
-  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-  private Broker corretor;
+  @Column(nullable = true)
+  private String creci;
+
+  private String telefone;
+
+  private String observacao;
 
   @CreationTimestamp
-  @Column(nullable = false)
+  @Column(nullable = false, updatable = false)
   private LocalDateTime createAt;
 
   @UpdateTimestamp
@@ -53,7 +68,6 @@ public class User {
     CORRETOR,
     ADMINISTRADOR,
     CLIENTE,
-    USER;
   }
 
   public enum StatusUsuario {

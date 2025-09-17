@@ -13,6 +13,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Long;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -53,9 +54,13 @@ public class Property {
 
   private Integer vagasNaGaragem;
 
-  private long criadoPor;
+  @ManyToOne
+  @JoinColumn(name = "criado_por_user_id", nullable = false)
+  private User criadoPor;
 
-  private long criadoPara;
+  @ManyToOne
+  @JoinColumn(name = "criado_para_user_id")
+  private User criadoPara;
 
   private Boolean estaBloqueado;
 
@@ -90,7 +95,7 @@ public class Property {
           String titulo, String descricao, String logradouro, String cidade, String cep,
           String numero, String complemento, String bairro, String estado, Double precoDeVendaOuAluguel,
           String latitude, String longitude, Integer numeroDeQuartos,
-          Integer vagasNaGaragem, Long criadoPor, Long criadoPara, String telefone,
+          Integer vagasNaGaragem, User currentUser, User criadoParaUser, String telefone,
           String nomeDeContato, TipoDeImovel tipoDeImovel) {
 
     if (titulo == null || titulo.isBlank()) {
@@ -117,8 +122,11 @@ public class Property {
     property.setLongitude(longitude);
     property.setNumeroDeQuartos(numeroDeQuartos);
     property.setVagasNaGaragem(vagasNaGaragem);
-    property.setCriadoPor(criadoPor);
-    property.setCriadoPara(criadoPara);
+
+    property.setCriadoPor(currentUser);
+
+    property.setCriadoPara(criadoParaUser);
+
     property.setTelefone(telefone);
     property.setNomeDeContato(nomeDeContato);
     property.setTipoDeImovel(tipoDeImovel);

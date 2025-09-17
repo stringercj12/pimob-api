@@ -5,6 +5,7 @@ import org.example.pimob.infrastructure.repositories.PropertyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PropertyListAllUseCase implements IPropertyListAllUseCase {
@@ -34,14 +35,14 @@ public class PropertyListAllUseCase implements IPropertyListAllUseCase {
                 property.getLatitude(),
                 property.getLongitude(),
                 property.getNumeroDeQuartos(),
-                property.getCriadoPor(),
-                property.getCriadoPara(),
+                property.getCriadoPor().getId(),
+                property.getCriadoPara().getId(),
                 property.getTelefone(),
                 property.getNomeDeContato(),
                 property.getVagasNaGaragem(),
                 property.getEstaBloqueado(),
                 property.getTipoDeImovel(),
                 property.getStatusDoImovel()
-        )).toList();
+        )).collect(Collectors.toList());
     }
 }

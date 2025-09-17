@@ -2,6 +2,8 @@ package org.example.pimob.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -14,19 +16,49 @@ public class VisitHistory {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private LocalDateTime dataVisita;
+  private LocalDateTime dataDaVisita;
 
   private String anotacoes;
 
   @ManyToOne
-  @JoinColumn(name = "cliente_id")
-  private Client cliente;
+  @JoinColumn(name = "criado_por_user_id", nullable = false)
+  private User criadoPor;
 
   @ManyToOne
-  @JoinColumn(name = "corretor_id")
-  private Broker corretor;
+  @JoinColumn(name = "criado_para_user_id")
+  private User criadoPara;
 
   @ManyToOne
   @JoinColumn(name = "imovel_id")
   private Property property;
+
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private StatusDaVisita statusDaVisita;
+
+  @CreationTimestamp
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime createAt;
+
+  @UpdateTimestamp
+  private LocalDateTime updatedAt;
+
+
+  private enum StatusDaVisita {
+    AGENDADA,
+    CRIADA,
+    REALIZADA,
+    CANCELADA,
+    ADIADA,
+    FINALIZADA;
+
+    public static boolean exists(String status) {
+      try {
+        VisitHistory.StatusDaVisita.valueOf(status);
+        return true;
+      } catch (IllegalArgumentException e) {
+        return false;
+      }
+    }
+    }
 }

@@ -49,10 +49,10 @@ public record PropertyRequest(
         Integer numeroDeQuartos,
 
         @NotNull(message = "Usuário que está cadastrando no momento é obrigatório.")
-        Long criadoPor,
+        Long criadoPorUserId,
 
         @NotNull(message = "Informe o usuário que é dono do imóvel. Ex: Corretor, Cliente")
-        Long cadastradoPara,
+        Long criadoParaUserId,
 
         @NotBlank(message = "Informe o tipo de usuário")
         String tipoDeUsuario,

@@ -19,3 +19,6 @@ server:
   port: 8080
 
 serverUrl: http://localhost
+springdoc:
+  api-docs:
+    enabled: true

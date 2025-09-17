@@ -1,9 +1,11 @@
 package org.example.pimob.application.useCases.property.create;
 
+import org.example.pimob.application.useCases.auth.PermissionsUseCase;
 import org.example.pimob.communication.response.property.PropertyRegisterResponse;
 import org.example.pimob.communication.response.property.PropertyRequest;
 import org.example.pimob.domain.entities.Property;
 import org.example.pimob.domain.entities.User;
+import org.example.pimob.domain.enums.PermissionsEnum;
 import org.example.pimob.exception.others.BusinessRuleException;
 import org.example.pimob.exception.property.PropertyDuplicateException;
 import org.example.pimob.exception.others.ForbiddenException;
@@ -17,18 +19,25 @@ public class PropertyCreateUseCase implements IPropertyCreateUseCase {
 
   private final PropertyRepository propertyRepository;
   private final UserRepository userRepository;
+  private final PermissionsUseCase permissionsUseCase;
 
-  public PropertyCreateUseCase(PropertyRepository propertyRepository, UserRepository userRepository) {
+  public PropertyCreateUseCase(PropertyRepository propertyRepository, UserRepository userRepository, PermissionsUseCase permissionsUseCase) {
     this.propertyRepository = propertyRepository;
     this.userRepository = userRepository;
+    this.permissionsUseCase = permissionsUseCase;
   }
 
   @Override
   public PropertyRegisterResponse execute(PropertyRequest request) {
 
-    var user = userRepository.findById(request.criadoPor()).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+    var currentUser = userRepository.findById(request.criadoPorUserId()).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 
-    validate(request, user);
+    if (!permissionsUseCase.hasPermission(currentUser.getTipoDeUsuario(), PermissionsEnum.PROPERTY_ADD)) {
+      throw new BusinessRuleException("Usuário não tem permissão para adicionar imóveis.");
+    }
+
+    validateDuplicationProperty(request);
+    validateLimitToRegister(currentUser);
 
     Property property = Property.createNew(
             request.titulo(),
@@ -45,28 +54,32 @@ public class PropertyCreateUseCase implements IPropertyCreateUseCase {
             request.longitude(),
             request.numeroDeQuartos(),
             request.vagasNaGaragem(),
-            user.getId(),
-            request.cadastradoPara(),
+            currentUser,
+            null,
             request.telefone(),
             request.nomeDeContato(),
             request.tipoDeImovel()
     );
 
-    var propertyCreated = this.propertyRepository.save(property);
 
-    return new PropertyRegisterResponse(propertyCreated.getId());
-  }
+    if (request.criadoParaUserId() != null) {
 
-  private void validate(PropertyRequest request, User user) {
-    validatePermissions(user);
-    validateDuplicationProperty(request);
-    validateLimitToRegister(user);
-  }
+      User criadoParaUser = new User();
+      criadoParaUser.setId(request.criadoParaUserId());
+      criadoParaUser.setNome(request.nomeDeContato());
+      criadoParaUser.setTelefone(request.telefone());
+      criadoParaUser.setTipoDeUsuario(User.TipoDeUsuario.CLIENTE);
 
-  private void validatePermissions(User user) {
-    if (!user.getAtivo()) {
-      throw new ForbiddenException("Usuário não tem permissão para cadastrar imóveis.");
+      if (currentUser.getTipoDeUsuario() == User.TipoDeUsuario.CORRETOR &&
+              !permissionsUseCase.hasPermission(currentUser.getTipoDeUsuario(), PermissionsEnum.USER_CREATE_CLIENT)) {
+        throw new BusinessRuleException("Corretor não tem permissão para cadastrar imóvel para este cliente.");
+      }
+
+      property.setCriadoPara(criadoParaUser);
     }
+
+    var propertyCreated = this.propertyRepository.save(property);
+    return new PropertyRegisterResponse(propertyCreated.getId());
   }
 
   private void validateDuplicationProperty(PropertyRequest request) {
@@ -80,7 +93,7 @@ public class PropertyCreateUseCase implements IPropertyCreateUseCase {
 
   private void validateLimitToRegister(User user) {
     if (user.getTipoDeUsuario() == User.TipoDeUsuario.CLIENTE) {
-      long totalImoveis = propertyRepository.countByCriadoPor(user.getId());
+      long totalImoveis = propertyRepository.findByCriadoPor(user).size();
 
       if (totalImoveis >= 10) {
         throw new BusinessRuleException("Limite de 10 imóveis por ciente antigido.");
