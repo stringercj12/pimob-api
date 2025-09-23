@@ -22,11 +22,11 @@ public class VisitHistory {
 
   @ManyToOne
   @JoinColumn(name = "criado_por_user_id", nullable = false)
-  private User criadoPor;
+  private UserEntity criadoPor;
 
   @ManyToOne
   @JoinColumn(name = "criado_para_user_id")
-  private User criadoPara;
+  private UserEntity criadoPara;
 
   @ManyToOne
   @JoinColumn(name = "imovel_id")
@@ -60,5 +60,5 @@ public class VisitHistory {
         return false;
       }
     }
-    }
+  }
 }

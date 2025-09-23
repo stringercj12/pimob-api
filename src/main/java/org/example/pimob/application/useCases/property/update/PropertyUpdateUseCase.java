@@ -1,8 +1,8 @@
 package org.example.pimob.application.useCases.property.update;
 
-import org.example.pimob.application.useCases.auth.PermissionsUseCase;
+import org.example.pimob.application.useCases.auth.PermissionUseCase;
 import org.example.pimob.communication.response.property.PropertyRequest;
-import org.example.pimob.domain.entities.User;
+import org.example.pimob.domain.entities.UserEntity;
 import org.example.pimob.domain.enums.PermissionsEnum;
 import org.example.pimob.exception.others.BusinessRuleException;
 import org.example.pimob.exception.property.PropertyDuplicateException;
@@ -17,12 +17,12 @@ public class PropertyUpdateUseCase implements IPropertyUpdateUseCase {
 
   private final PropertyRepository propertyRepository;
   private final UserRepository userRepository;
-  private final PermissionsUseCase permissionsUseCase;
+  private final PermissionUseCase permissionUseCase;
 
-  public PropertyUpdateUseCase(PropertyRepository propertyRepository, UserRepository userRepository, PermissionsUseCase permissionsUseCase) {
+  public PropertyUpdateUseCase(PropertyRepository propertyRepository, UserRepository userRepository, PermissionUseCase permissionUseCase) {
     this.propertyRepository = propertyRepository;
     this.userRepository = userRepository;
-    this.permissionsUseCase = permissionsUseCase;
+    this.permissionUseCase = permissionUseCase;
   }
 
   @Override
@@ -30,10 +30,10 @@ public class PropertyUpdateUseCase implements IPropertyUpdateUseCase {
     var propertyCurrent = propertyRepository.findById(propertyId).orElseThrow(() -> new PropertyNotFoundException("Imóvel não encontrado."));
 
     var currentUser = userRepository.findById(request.criadoPorUserId()).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
-
-    if (!permissionsUseCase.hasPermission(currentUser.getTipoDeUsuario(), PermissionsEnum.PROPERTY_ADD)) {
-      throw new BusinessRuleException("Usuário não tem permissão para adicionar imóveis.");
-    }
+//
+//    if (!permissionUseCase.hasPermission(currentUser.getTipoDeUsuario(), PermissionsEnum.PROPERTY_ADD)) {
+//      throw new BusinessRuleException("Usuário não tem permissão para adicionar imóveis.");
+//    }
 
     validateDuplicationProperty(request);
     validateLimitToRegister(currentUser);
@@ -70,14 +70,14 @@ public class PropertyUpdateUseCase implements IPropertyUpdateUseCase {
     }
   }
 
-  private void validateLimitToRegister(User user) {
-    if (user.getTipoDeUsuario() == User.TipoDeUsuario.CLIENTE) {
-      long totalImoveis = propertyRepository.findByCriadoPor(user).size();
-
-      if (totalImoveis >= 10) {
-        throw new BusinessRuleException("Limite de 10 imóveis por ciente antigido.");
-      }
-    }
+  private void validateLimitToRegister(UserEntity user) {
+//    if (user.getTipoDeUsuario() == UserEntity.TipoDeUsuario.CLIENTE) {
+//      long totalImoveis = propertyRepository.findByCriadoPor(user).size();
+//
+//      if (totalImoveis >= 10) {
+//        throw new BusinessRuleException("Limite de 10 imóveis por ciente antigido.");
+//      }
+//    }
   }
 
 }

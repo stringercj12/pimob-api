@@ -5,29 +5,31 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.pimob.domain.enums.PermissionsEnum;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_roles")
-public class Role {
+@Table(name = "tb_teams")
+public class TeamEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
   @Column(unique = true, nullable = false)
   private String name;
 
+  private String description;
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
-          name = "role_permissions",
-          joinColumns = @JoinColumn(name = "role_id"),
+          name = "tb_team_permissions",
+          joinColumns = @JoinColumn(name = "team_id"),
           inverseJoinColumns = @JoinColumn(name = "permission_id")
   )
-  private Set<Permission> permissions;
+  private Set<PermissionEntity> permissions;
 }

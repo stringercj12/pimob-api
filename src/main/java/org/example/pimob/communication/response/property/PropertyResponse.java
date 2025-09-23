@@ -2,6 +2,8 @@ package org.example.pimob.communication.response.property;
 
 import org.example.pimob.domain.entities.Property;
 
+import java.util.UUID;
+
 
 public record PropertyResponse(
         Long id,
@@ -18,8 +20,8 @@ public record PropertyResponse(
         String latitude,
         String longitude,
         Integer numeroDeQuartos,
-        Long criadoPor,
-        Long cadastradoPara,
+        UUID criadoPor,
+        UUID cadastradoPara,
         String telefone,
         String nomeDeContato,
         Integer vagasNaGaragem,

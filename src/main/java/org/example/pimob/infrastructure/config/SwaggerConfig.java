@@ -1,11 +1,17 @@
 package org.example.pimob.infrastructure.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+import java.util.ArrayList;
+import java.util.List;
+
 //@OpenAPIDefinition(
 //        info = @Info(
 //                title = "API de Portal Imobiliário",
@@ -27,15 +33,14 @@ import org.springframework.context.annotation.Configuration;
 //                description = "Servidor de Desenvolvimento Local"
 //        )
 //)
+@Configuration
+@OpenAPIDefinition(info = @Info(title = "API de Portal Imobiliário", version = "v1", description = "Documentação Api para o PIMOB - Portal Imobiliário"))
+@SecurityScheme(
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 public class SwaggerConfig {
 
-  @Bean
-  public OpenAPI customOpenApiConfig() {
-    return new OpenAPI().info(
-            new Info()
-                    .title("API de Portal Imobiliário")
-                    .version("1.0.0")
-                    .description("Api para o PIMOB - Portal Imobiliário")
-    );
-  }
 }

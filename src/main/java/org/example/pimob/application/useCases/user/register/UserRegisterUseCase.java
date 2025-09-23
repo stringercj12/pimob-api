@@ -4,20 +4,20 @@ package org.example.pimob.application.useCases.user.register;
 import jakarta.transaction.Transactional;
 import org.example.pimob.communication.request.UserRegisterRequest;
 import org.example.pimob.communication.response.user.UserRegisterResponse;
-import org.example.pimob.domain.entities.User;
+import org.example.pimob.domain.entities.UserEntity;
 import org.example.pimob.infrastructure.repositories.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserRegisterUseCase implements IUserRegisterUseCase {
 
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder bcryptPasswordEncoder;
+  private final PasswordEncoder passwordEnconder;
 
-  public UserRegisterUseCase(UserRepository userRepository, BCryptPasswordEncoder bcryptPasswordEncoder) {
+  public UserRegisterUseCase(UserRepository userRepository, PasswordEncoder passwordEnconder) {
     this.userRepository = userRepository;
-    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
+    this.passwordEnconder = passwordEnconder;
   }
 
   @Override
@@ -29,16 +29,16 @@ public class UserRegisterUseCase implements IUserRegisterUseCase {
       throw new IllegalArgumentException("User with this email already exists.");
     }
 
-    var user = new User();
+    var user = new UserEntity();
 
     user.setEmail(request.getEmail());
     user.setNome(request.getNome());
 
-    user.setSenha(bcryptPasswordEncoder.encode(request.getSenha()));
+    user.setSenha(passwordEnconder.encode(request.getSenha()));
 
-    user.setTipoDeUsuario(request.getTipoDeUsuario());
-    user.setStatusUsuario(User.StatusUsuario.PENDENTE);
-    user.setAtivo(false);
+//    user.setTipoDeUsuario(request.getTipoDeUsuario());
+    user.setStatusUsuario(UserEntity.StatusUsuario.PENDENTE);
+//    user.setAtivo(false);
 
     userRepository.save(user);
 

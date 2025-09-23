@@ -56,11 +56,11 @@ public class Property {
 
   @ManyToOne
   @JoinColumn(name = "criado_por_user_id", nullable = false)
-  private User criadoPor;
+  private UserEntity criadoPor;
 
   @ManyToOne
   @JoinColumn(name = "criado_para_user_id")
-  private User criadoPara;
+  private UserEntity criadoPara;
 
   private Boolean estaBloqueado;
 
@@ -95,7 +95,7 @@ public class Property {
           String titulo, String descricao, String logradouro, String cidade, String cep,
           String numero, String complemento, String bairro, String estado, Double precoDeVendaOuAluguel,
           String latitude, String longitude, Integer numeroDeQuartos,
-          Integer vagasNaGaragem, User currentUser, User criadoParaUser, String telefone,
+          Integer vagasNaGaragem, UserEntity currentUser, UserEntity criadoParaUser, String telefone,
           String nomeDeContato, TipoDeImovel tipoDeImovel) {
 
     if (titulo == null || titulo.isBlank()) {

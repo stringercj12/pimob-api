@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,11 +16,11 @@ import java.util.Set;
 @ToString(exclude = {"corretor"})
 @Entity
 @Table(name = "tb_users")
-public class User {
+public class UserEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
   @Column(nullable = false)
   private String nome;
@@ -32,22 +33,7 @@ public class User {
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private TipoDeUsuario tipoDeUsuario;
-
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
   private StatusUsuario statusUsuario;
-
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(
-          name = "user_roles",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "role_id")
-  )
-  private Set<Role> roles;
-
-  @Column(nullable = false)
-  private Boolean ativo;
 
   @Column(nullable = true)
   private String creci;
@@ -63,6 +49,13 @@ public class User {
   @UpdateTimestamp
   private LocalDateTime updatedAt;
 
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+          name = "tb_user_teams",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "team_id")
+  )
+  private Set<TeamEntity> teams;
 
   public enum TipoDeUsuario {
     CORRETOR,

@@ -7,9 +7,10 @@ import jakarta.validation.constraints.Positive;
 import org.example.pimob.domain.entities.Property;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public record PropertyRequest(
-        Optional<Long> id,
+        Optional<UUID> id,
 
         @NotBlank(message = "Informe o título do imóvel")
         String titulo,
@@ -49,10 +50,10 @@ public record PropertyRequest(
         Integer numeroDeQuartos,
 
         @NotNull(message = "Usuário que está cadastrando no momento é obrigatório.")
-        Long criadoPorUserId,
+        UUID criadoPorUserId,
 
         @NotNull(message = "Informe o usuário que é dono do imóvel. Ex: Corretor, Cliente")
-        Long criadoParaUserId,
+        UUID criadoParaUserId,
 
         @NotBlank(message = "Informe o tipo de usuário")
         String tipoDeUsuario,

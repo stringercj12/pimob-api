@@ -1,5 +1,8 @@
 package org.example.pimob.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
+import org.example.pimob.exception.auth.AccessDeniedException;
 import org.example.pimob.exception.broker.BrokerAlreadyExistsException;
 import org.example.pimob.exception.broker.BrokerNotFoundException;
 import org.example.pimob.exception.broker.BrokerUnauthorizedUpdateException;
@@ -8,76 +11,114 @@ import org.example.pimob.exception.others.ForbiddenException;
 import org.example.pimob.exception.others.ValidationException;
 import org.example.pimob.exception.property.PropertyDuplicateException;
 import org.example.pimob.exception.property.PropertyNotFoundException;
+import org.example.pimob.exception.role.RoleExistsException;
 import org.example.pimob.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class HandlerExceptionController extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerUserNotFoundException(UserNotFoundException exception) {
+  public ResponseEntity<ErrorResponse> handlerUserNotFoundException(UserNotFoundException exception) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-      new MessageExceptionDTO(HttpStatus.NOT_FOUND.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.NOT_FOUND.value(), "NOT_FOUND", exception.getMessage())
     );
   }
 
   @ExceptionHandler(BrokerNotFoundException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerBrokerNotFoundException(BrokerNotFoundException exception) {
+  public ResponseEntity<ErrorResponse> handlerBrokerNotFoundException(BrokerNotFoundException exception) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-      new MessageExceptionDTO(HttpStatus.NOT_FOUND.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.NOT_FOUND.value(), "NOT_FOUND", exception.getMessage())
     );
   }
 
   @ExceptionHandler(BrokerAlreadyExistsException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerBrokerAlreadyExistsException(BrokerAlreadyExistsException exception) {
+  public ResponseEntity<ErrorResponse> handlerBrokerAlreadyExistsException(BrokerAlreadyExistsException exception) {
     return ResponseEntity.status(HttpStatus.CONFLICT).body(
-      new MessageExceptionDTO(HttpStatus.CONFLICT.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.CONFLICT.value(), "CONFLICT", exception.getMessage())
     );
   }
 
   @ExceptionHandler(BrokerUnauthorizedUpdateException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerUnauthorizedBrokerUpdateException(BrokerUnauthorizedUpdateException exception) {
+  public ResponseEntity<ErrorResponse> handlerUnauthorizedBrokerUpdateException(BrokerUnauthorizedUpdateException exception) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-            new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.FORBIDDEN.value(), "FORBIDDEN", exception.getMessage())
     );
   }
 
   @ExceptionHandler(PropertyDuplicateException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerDuplicatePropertyException(PropertyDuplicateException exception) {
+  public ResponseEntity<ErrorResponse> handlerDuplicatePropertyException(PropertyDuplicateException exception) {
     return ResponseEntity.status(HttpStatus.CONFLICT).body(
-            new MessageExceptionDTO(HttpStatus.CONFLICT.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.CONFLICT.value(), "CONFLICT", exception.getMessage())
     );
   }
 
   @ExceptionHandler(ForbiddenException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerForbiddenException(ForbiddenException exception) {
+  public ResponseEntity<ErrorResponse> handlerForbiddenException(ForbiddenException exception) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-            new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.FORBIDDEN.value(), "FORBIDDEN", exception.getMessage())
     );
   }
 
   @ExceptionHandler(ValidationException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerValidationException(ValidationException exception) {
+  public ResponseEntity<ErrorResponse> handlerValidationException(ValidationException exception) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-            new MessageExceptionDTO(HttpStatus.BAD_REQUEST.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "BAD_REQUEST", exception.getMessage())
     );
   }
 
   @ExceptionHandler(BusinessRuleException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerBusinessRuleException(BusinessRuleException exception) {
+  public ResponseEntity<ErrorResponse> handlerBusinessRuleException(BusinessRuleException exception) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-            new MessageExceptionDTO(HttpStatus.FORBIDDEN.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.FORBIDDEN.value(), "FORBIDDEN", exception.getMessage())
     );
   }
 
   @ExceptionHandler(PropertyNotFoundException.class)
-  public ResponseEntity<MessageExceptionDTO> handlerPropertyNotFoundException(PropertyNotFoundException exception) {
+  public ResponseEntity<ErrorResponse> handlerPropertyNotFoundException(PropertyNotFoundException exception) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-            new MessageExceptionDTO(HttpStatus.NOT_FOUND.value(), exception.getMessage())
+            new ErrorResponse(HttpStatus.NOT_FOUND.value(), "NOT_FOUND", exception.getMessage())
     );
   }
+
+  @ExceptionHandler(RoleExistsException.class)
+  public ResponseEntity<ErrorResponse> handlerRoleExistsException(RoleExistsException exception) {
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(
+            new ErrorResponse(HttpStatus.CONFLICT.value(), "CONFLICT", exception.getMessage())
+    );
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseEntity<ErrorResponse> handlerAccessDeniedException(AccessDeniedException exception) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+            new ErrorResponse(HttpStatus.FORBIDDEN.value(), "Forbidden", exception.getMessage())
+    );
+  }
+
+  @ExceptionHandler({ExpiredJwtException.class, SignatureException.class, RuntimeException.class})
+  public ResponseEntity<ErrorResponse> handleAuthenticationErrors(RuntimeException ex) {
+
+    String message = ex.getMessage();
+
+    if (ex instanceof ExpiredJwtException) {
+      message = "Token expirado. Faça o login novamente.";
+    } else if (ex instanceof SignatureException) {
+      message = "Assinatura do token inválida.";
+    } else {
+      message = "Token inválido ou ausente. Autenticação falhou.";
+    }
+
+    ErrorResponse errorResponse = new ErrorResponse(
+            HttpStatus.UNAUTHORIZED.value(),
+            "Unauthorized",
+            message
+    );
+
+    return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+  }
+
 }

@@ -1,6 +1,7 @@
 package org.example.pimob.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.example.pimob.application.useCases.user.delete.UserDeleteUseCase;
@@ -12,12 +13,12 @@ import org.example.pimob.application.useCases.user.update.UserUpdateUseCase;
 import org.example.pimob.communication.request.UserRegisterRequest;
 import org.example.pimob.communication.request.UserUpdateStatusRequest;
 import org.example.pimob.communication.response.user.UserResponse;
+import org.example.pimob.infrastructure.config.HasPermission;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -50,20 +51,21 @@ public class UserController {
 
   @PutMapping("/{id}")
   @Operation(summary = "Atualizar usuário")
-  public ResponseEntity<Object> updateUser(@Valid @RequestBody UserRegisterRequest request, @PathVariable Long id) {
+  public ResponseEntity<Object> updateUser(@Valid @RequestBody UserRegisterRequest request, @PathVariable UUID id) {
     userUpdateUseCase.execute(request, id);
     return ResponseEntity.noContent().build();
   }
 
   @GetMapping
-  @Operation(summary = "Listar todos os usuários")
+  @Operation(summary = "Listar todos os usuários", security = @SecurityRequirement(name = "bearerAuth"))
+//  @HasPermission("LISTAR_USUARIO")
   public ResponseEntity<List<UserResponse>> findAllUsers() {
     return ResponseEntity.ok(userGetAllUseCase.execute());
   }
 
   @GetMapping("{id}")
   @Operation(summary = "Buscar usuário pelo ID")
-  public ResponseEntity<UserResponse> findUserById(@PathVariable Long id) {
+  public ResponseEntity<UserResponse> findUserById(@PathVariable UUID id) {
     var result = userGetByIdUseCase.execute(id);
 
     return ResponseEntity.ok(result);
@@ -71,7 +73,7 @@ public class UserController {
 
   @DeleteMapping("{id}")
   @Operation(summary = "Remover um usuário pelo ID")
-  public ResponseEntity<Object> deleteUserById(@PathVariable Long id) {
+  public ResponseEntity<Object> deleteUserById(@PathVariable UUID id) {
     userDeleteUseCase.execute(id);
     return ResponseEntity.noContent().build();
   }

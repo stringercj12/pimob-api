@@ -2,9 +2,11 @@ package org.example.pimob.communication.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
-import org.example.pimob.domain.entities.User.StatusUsuario;
-import org.example.pimob.domain.entities.User.TipoDeUsuario;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.example.pimob.domain.entities.UserEntity.StatusUsuario;
 
 @Getter
 @Setter
@@ -21,6 +23,5 @@ public class UserRegisterRequest {
 
   private String senha;
 
-  private TipoDeUsuario tipoDeUsuario;
   private StatusUsuario statusUsuario;
 }

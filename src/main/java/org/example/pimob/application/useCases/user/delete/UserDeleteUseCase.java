@@ -5,6 +5,8 @@ import org.example.pimob.exception.user.UserNotFoundException;
 import org.example.pimob.infrastructure.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserDeleteUseCase implements IUserDeleteUseCase {
 
@@ -16,7 +18,7 @@ public class UserDeleteUseCase implements IUserDeleteUseCase {
 
   @Override
   @Transactional
-  public void execute(Long id) {
+  public void execute(UUID id) {
     var user =  userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 
     userRepository.delete(user);
