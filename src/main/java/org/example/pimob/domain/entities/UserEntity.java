@@ -13,7 +13,6 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"corretor"})
 @Entity
 @Table(name = "tb_users")
 public class UserEntity {
@@ -56,12 +55,6 @@ public class UserEntity {
           inverseJoinColumns = @JoinColumn(name = "team_id")
   )
   private Set<TeamEntity> teams;
-
-  public enum TipoDeUsuario {
-    CORRETOR,
-    ADMINISTRADOR,
-    CLIENTE,
-  }
 
   public enum StatusUsuario {
     PENDENTE,

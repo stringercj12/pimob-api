@@ -1,10 +1,10 @@
 package org.example.pimob.application.useCases.user.update;
 
 import jakarta.transaction.Transactional;
-import org.example.pimob.communication.request.UserRegisterRequest;
+import org.example.pimob.communication.response.user.UserRequest;
 import org.example.pimob.exception.user.UserNotFoundException;
 import org.example.pimob.infrastructure.repositories.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -13,25 +13,25 @@ import java.util.UUID;
 public class UserUpdateUseCase implements IUserUpdateUseCase {
 
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder bcryptPasswordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-  public UserUpdateUseCase(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+  public UserUpdateUseCase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
-    this.bcryptPasswordEncoder = passwordEncoder;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
   @Transactional
-  public void execute(UserRegisterRequest request, UUID id) {
+  public void execute(UserRequest request, UUID id) {
     var user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 
-    user.setEmail(request.getEmail());
-    user.setNome(request.getEmail());
-    user.setStatusUsuario(request.getStatusUsuario());
+    user.setEmail(request.email());
+    user.setNome(request.email());
+    user.setStatusUsuario(request.statusUsuario());
 //    user.setTipoDeUsuario(request.getTipoDeUsuario());
 
-    if (request.getSenha() != null && !request.getSenha().isEmpty()) {
-      user.setSenha(bcryptPasswordEncoder.encode(request.getSenha()));
+    if (request.senha() != null && !request.senha().isEmpty()) {
+      user.setSenha(passwordEncoder.encode(request.senha()));
     }
 
     userRepository.save(user);

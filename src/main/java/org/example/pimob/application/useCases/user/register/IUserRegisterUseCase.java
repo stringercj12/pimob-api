@@ -1,8 +1,8 @@
 package org.example.pimob.application.useCases.user.register;
 
-import org.example.pimob.communication.request.UserRegisterRequest;
-import org.example.pimob.communication.response.user.UserRegisterResponse;
+import org.example.pimob.communication.response.user.UserRequest;
+import org.example.pimob.communication.response.user.UserResponse;
 
 public interface IUserRegisterUseCase {
-  UserRegisterResponse execute(UserRegisterRequest request);
+  UserResponse execute(UserRequest request);
 }

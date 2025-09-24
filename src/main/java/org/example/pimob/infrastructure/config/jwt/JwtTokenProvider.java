@@ -13,7 +13,7 @@ public class JwtTokenProvider {
   @Value("${jwt.secret}")
   private String jwtSecret;
 
-  private final long jwtExpirationInMs = 604800000L;
+  private final long jwtExpirationInMs = 120000L;
 
   public String generateToken(String email, String role) {
     Date now = new Date();

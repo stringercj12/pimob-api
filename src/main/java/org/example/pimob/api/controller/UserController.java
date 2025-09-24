@@ -10,11 +10,11 @@ import org.example.pimob.application.useCases.user.getById.UserGetByIdUseCase;
 import org.example.pimob.application.useCases.user.register.UserRegisterUseCase;
 import org.example.pimob.application.useCases.user.update.UserUpdateStatusUseCase;
 import org.example.pimob.application.useCases.user.update.UserUpdateUseCase;
-import org.example.pimob.communication.request.UserRegisterRequest;
 import org.example.pimob.communication.request.UserUpdateStatusRequest;
+import org.example.pimob.communication.response.user.UserRequest;
 import org.example.pimob.communication.response.user.UserResponse;
-import org.example.pimob.infrastructure.config.HasPermission;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +24,7 @@ import java.util.UUID;
 @RequestMapping("/api/user")
 @CrossOrigin("*")
 @Tag(name = "User", description = "Operações relacionados ao usuário")
+@PreAuthorize("hasRole('ADMINISTRADOR')")
 public class UserController {
 
   private final UserRegisterUseCase userRegisterUseCase;
@@ -44,21 +45,20 @@ public class UserController {
 
   @PostMapping
   @Operation(summary = "Cadastrar usuário")
-  public ResponseEntity<Object> postUser(@Valid @RequestBody UserRegisterRequest request) {
+  public ResponseEntity<Object> postUser(@Valid @RequestBody UserRequest request) {
     userRegisterUseCase.execute(request);
     return ResponseEntity.noContent().build();
   }
 
   @PutMapping("/{id}")
   @Operation(summary = "Atualizar usuário")
-  public ResponseEntity<Object> updateUser(@Valid @RequestBody UserRegisterRequest request, @PathVariable UUID id) {
+  public ResponseEntity<Object> updateUser(@Valid @RequestBody UserRequest request, @PathVariable UUID id) {
     userUpdateUseCase.execute(request, id);
     return ResponseEntity.noContent().build();
   }
 
   @GetMapping
   @Operation(summary = "Listar todos os usuários", security = @SecurityRequirement(name = "bearerAuth"))
-//  @HasPermission("LISTAR_USUARIO")
   public ResponseEntity<List<UserResponse>> findAllUsers() {
     return ResponseEntity.ok(userGetAllUseCase.execute());
   }
